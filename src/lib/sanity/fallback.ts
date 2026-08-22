@@ -1,0 +1,148 @@
+import type { Project, Service } from "./types";
+
+export const fallbackServices: Service[] = [
+  {
+    _id: "service-1",
+    title: "Generální dodávka staveb",
+    slug: { current: "generalni-dodavka" },
+    shortDescription:
+      "Komplexní realizace staveb od projektové přípravy po předání díla.",
+    order: 1,
+  },
+  {
+    _id: "service-2",
+    title: "Rekonstrukce a modernizace",
+    slug: { current: "rekonstrukce" },
+    shortDescription:
+      "Obnova a modernizace veřejných budov, škol a zdravotnických zařízení.",
+    order: 2,
+  },
+  {
+    _id: "service-3",
+    title: "Inženýrské sítě",
+    slug: { current: "inzenyrske-site" },
+    shortDescription:
+      "Vodovody, kanalizace, plynovody a další technická infrastruktura.",
+    order: 3,
+  },
+  {
+    _id: "service-4",
+    title: "Dopravní stavby",
+    slug: { current: "dopravni-stavby" },
+    shortDescription:
+      "Silnice, chodníky, mosty a úpravy dopravních ploch.",
+    order: 4,
+  },
+  {
+    _id: "service-5",
+    title: "Veřejné zakázky",
+    slug: { current: "verejne-zakazky" },
+    shortDescription:
+      "Realizace projektů financovaných z veřejných zdrojů dle zákona o zadávání veřejných zakázek.",
+    order: 5,
+  },
+];
+
+export const fallbackProjects: Project[] = [
+  {
+    _id: "project-zatepleni",
+    title: "Zateplení administrativní budovy",
+    slug: { current: "zatepleni-administrativni-budovy" },
+    status: "completed",
+    sector: "public",
+    investor: "Veřejný investor",
+    location: "Moravskoslezský kraj",
+    projectType: "Zateplení fasády",
+    yearFrom: 2023,
+    yearTo: 2024,
+    scope:
+      "Kompletní zateplení administrativní budovy včetně fasádních úprav a souvisejících stavebních prací.",
+    outcome: "Snížení energetické náročnosti budovy a obnova vnějšího pláště.",
+    coverImage: { _type: "image", asset: { _ref: "fallback-zatepleni" } },
+    featured: true,
+  },
+  {
+    _id: "project-detmarovice",
+    title: "Elektrárna Dětmarovice",
+    slug: { current: "elektrarna-detmarovice" },
+    status: "completed",
+    sector: "public",
+    investor: "ČEZ",
+    location: "Dětmarovice",
+    projectType: "Průmyslová stavba",
+    yearFrom: 2022,
+    yearTo: 2023,
+    scope:
+      "Stavební a technologické práce v areálu teplárny / elektrárny Dětmarovice.",
+    outcome: "Realizace dle technologických a bezpečnostních požadavků provozu.",
+    coverImage: { _type: "image", asset: { _ref: "fallback-detmarovice" } },
+    featured: true,
+  },
+  {
+    _id: "project-verovice",
+    title: "Zpevnění plochy Veřovice",
+    slug: { current: "zpevneni-plochy-verovice" },
+    status: "completed",
+    sector: "public",
+    investor: "Obec Veřovice",
+    location: "Veřovice",
+    projectType: "Dopravní stavby",
+    yearFrom: 2023,
+    yearTo: 2024,
+    scope:
+      "Zpevnění veřejných ploch, úprava povrchů a související terénní práce.",
+    outcome: "Uživatelsky i technicky kvalitní plocha připravená k dlouhodobému provozu.",
+    coverImage: { _type: "image", asset: { _ref: "fallback-verovice" } },
+    featured: true,
+  },
+  {
+    _id: "project-kravare-ms",
+    title: "Mateřská škola Kravaře",
+    slug: { current: "materska-skola-kravare" },
+    status: "completed",
+    sector: "public",
+    investor: "Město Kravaře",
+    location: "Kravaře",
+    projectType: "Rekonstrukce školní budovy",
+    yearFrom: 2022,
+    yearTo: 2023,
+    scope:
+      "Stavební úpravy a modernizace mateřské školy včetně exteriérových prací.",
+    outcome: "Kapacity školky odpovídající požadavkům provozu a hygienickým normám.",
+    coverImage: { _type: "image", asset: { _ref: "fallback-kravare-ms" } },
+    featured: true,
+  },
+  {
+    _id: "project-manor",
+    title: "The Manor Pub",
+    slug: { current: "the-manor-pub" },
+    status: "completed",
+    sector: "private",
+    investor: "Soukromý investor",
+    location: "Ostrava",
+    projectType: "Rekonstrukce interiéru",
+    yearFrom: 2023,
+    yearTo: 2024,
+    scope: "Kompletní rekonstrukce interiéru restaurace včetně rozvodů a povrchových úprav.",
+    outcome: "Provozovna uvedena do provozu dle harmonogramu.",
+    coverImage: { _type: "image", asset: { _ref: "fallback-manor" } },
+    featured: false,
+  },
+  {
+    _id: "project-ongoing",
+    title: "Modernizace nemocničního pavilonu",
+    slug: { current: "modernizace-nemocnice" },
+    status: "ongoing",
+    sector: "public",
+    investor: "Krajská nemocnice",
+    location: "Ostrava",
+    projectType: "Modernizace zdravotnického zařízení",
+    yearFrom: 2024,
+    scope:
+      "Stavební úpravy pavilonu, nové rozvody a úprava přístupnosti.",
+    challenge: "Provoz nemocnice nesmí být narušen.",
+    solution: "Práce v nočních směnách a víkendových oknech.",
+    coverImage: { _type: "image", asset: { _ref: "fallback-ongoing" } },
+    featured: true,
+  },
+];

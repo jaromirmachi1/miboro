@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /studio
+Disallow: /studio/
+
+# Host
+Host: https://www.miboro.cz
+
+# Sitemaps
+Sitemap: https://www.miboro.cz/sitemap.xml
