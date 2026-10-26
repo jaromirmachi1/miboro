@@ -89,7 +89,7 @@ export function Header({ phone }: HeaderProps) {
 
             <Link
               href="/kontakt"
-              className="hidden rounded-full bg-oranzova px-4 py-2 text-[13px] font-semibold text-bila transition-colors hover:bg-[#E6C200] sm:inline-flex"
+              className="hidden rounded-full bg-oranzova px-4 py-2 text-[13px] font-semibold text-grafit transition-colors hover:bg-[#E6C200] sm:inline-flex"
             >
               Kontakt
             </Link>
@@ -203,7 +203,7 @@ export function Header({ phone }: HeaderProps) {
             </a>
             <Link
               href="/kontakt"
-              className="flex w-full items-center justify-center rounded-full bg-grafit py-3.5 text-sm font-semibold text-bila transition-colors hover:bg-oranzova"
+              className="flex w-full items-center justify-center rounded-full bg-grafit py-3.5 text-sm font-semibold text-bila transition-colors hover:bg-oranzova hover:text-grafit"
               onClick={() => setOpen(false)}
             >
               Kontakt

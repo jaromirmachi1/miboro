@@ -15,7 +15,7 @@ export function FloatingContact({ phone }: FloatingContactProps) {
     >
       <a
         href={formatPhoneHref(phone)}
-        className="flex h-12 w-12 items-center justify-center bg-grafit text-bila transition-colors hover:bg-oranzova"
+        className="flex h-12 w-12 items-center justify-center bg-grafit text-bila transition-colors hover:bg-oranzova hover:text-grafit"
         title="Telefon"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -24,7 +24,7 @@ export function FloatingContact({ phone }: FloatingContactProps) {
       </a>
       <Link
         href="/kontakt"
-        className="flex h-12 w-12 items-center justify-center bg-oranzova text-bila transition-colors hover:bg-grafit"
+        className="flex h-12 w-12 items-center justify-center bg-oranzova text-grafit transition-colors hover:bg-grafit hover:text-bila"
         title="Kontakt"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">

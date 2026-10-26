@@ -46,7 +46,7 @@ export function HomeServices({ services }: HomeServicesProps) {
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 768px) 50vw, 20vw"
                     />
-                    <span className="absolute -bottom-5 left-4 flex h-10 w-10 items-center justify-center rounded-full bg-oranzova text-[11px] font-bold tabular-nums text-bila shadow-md">
+                    <span className="absolute -bottom-5 left-4 flex h-10 w-10 items-center justify-center rounded-full bg-oranzova text-[11px] font-bold tabular-nums text-grafit shadow-md">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>

@@ -16,7 +16,7 @@ export function Button({
 }: ButtonProps) {
   const styles = {
     primary:
-      "bg-oranzova text-bila hover:bg-[#E6C200]",
+      "bg-oranzova text-grafit hover:bg-[#E6C200]",
     outline:
       "border border-grafit text-grafit hover:bg-grafit hover:text-bila",
     "outline-light":

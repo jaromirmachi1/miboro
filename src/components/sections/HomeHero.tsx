@@ -45,11 +45,11 @@ export function HomeHero({ yearFounded, ongoingProject }: HomeHeroProps) {
     <section className="relative -mt-[var(--header-height)] min-h-svh overflow-hidden bg-black text-bila">
       <div className="absolute inset-0">
         <Image
-          src="/miboromanor.png"
-          alt="Realizace MIBORO — The Manor Pub"
+          src="/images/svarovac.jpg"
+          alt="Svářeč na stavbě MIBORO — práce na výztuži"
           fill
           priority
-          className="object-cover object-[center_45%]"
+          className="object-cover object-[center_40%]"
           sizes="100vw"
         />
         <div
