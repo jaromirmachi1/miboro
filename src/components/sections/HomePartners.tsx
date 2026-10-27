@@ -40,9 +40,10 @@ export function HomePartners() {
                 >
                   {partner.name}
                 </span>
-                {i < partnerLogos.length - 2 ? ", " : i === partnerLogos.length - 2 ? " a " : "."}
+                {i < partnerLogos.length - 1 ? ", " : " "}
               </span>
             ))}
+            <span className="text-papir">a mnoho dalších.</span>
         </p>
 
         <Reveal as="ul" className="mt-16 grid grid-cols-2 items-center gap-x-10 gap-y-10 sm:grid-cols-4 lg:grid-cols-7" stagger={0.06}>
