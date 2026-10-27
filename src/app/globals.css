@@ -3,25 +3,28 @@
 @tailwind utilities;
 
 :root {
-  --color-grafit: #000000;
-  --color-ocel: #000000;
+  --color-grafit: #0e0e0c;
+  --color-papir: #edede9;
   --color-oranzova: #ffd700;
-  --color-bila: #ffffff;
-  --color-sedy: #000000;
-  --color-svetly: #ffffff;
-  --color-border: rgba(0, 0, 0, 0.12);
-  --header-height: 4rem;
+  --header-height: 4.5rem;
+
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2.25rem, 1.3rem + 3.6vw, 4.75rem);
+  --step-mega: clamp(2.6rem, 0.6rem + 7.4vw, 8.25rem);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @media (min-width: 1024px) {
   :root {
-    --header-height: 4.5rem;
+    --header-height: 5rem;
   }
 }
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     color-scheme: light;
   }
 
@@ -31,23 +34,62 @@
 
   ::selection {
     background: var(--color-oranzova);
-    color: var(--color-bila);
+    color: var(--color-grafit);
   }
 
   h1,
   h2,
   h3,
   h4 {
-    @apply font-display font-semibold tracking-tight;
+    @apply font-display font-normal;
+    font-stretch: 82%;
+    letter-spacing: -0.02em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-oranzova);
+    outline-offset: 3px;
   }
 }
 
 @layer utilities {
   .text-label {
-    @apply text-[11px] font-medium uppercase tracking-[0.22em] text-sedy;
+    @apply text-small font-medium text-sedy;
   }
 
   .hairline {
     @apply border-border;
+  }
+
+  .condensed {
+    font-stretch: 82%;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }

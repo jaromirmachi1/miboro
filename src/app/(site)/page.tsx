@@ -1,4 +1,5 @@
 import { HomeAbout } from "@/components/sections/HomeAbout";
+import { HomeContact } from "@/components/sections/HomeContact";
 import { HomeHero } from "@/components/sections/HomeHero";
 import { HomePartners } from "@/components/sections/HomePartners";
 import { HomeProjects } from "@/components/sections/HomeProjects";
@@ -30,21 +31,26 @@ export default async function HomePage() {
       getCompletedProjects(),
     ]);
 
-  const yearFounded =
-    company.yearFounded ?? statData.yearFounded;
+  const yearFounded = company.yearFounded ?? statData.yearFounded;
 
   return (
-    <>
+    <div className="bg-grafit">
       <HomeHero yearFounded={yearFounded} ongoingProject={ongoingProject} />
       <HomeStats data={statData} />
       <HomeServices services={services} />
       <HomeProjects projects={completedProjects} />
       <HomeAbout
         yearFounded={yearFounded}
-        phone={company.phone || ""}
-        email={company.email || ""}
+        address={company.address || ""}
+        ico={company.ico || ""}
+        dic={company.dic || ""}
       />
       <HomePartners />
-    </>
+      <HomeContact
+        phone={company.phone || ""}
+        email={company.email || ""}
+        address={company.address || ""}
+      />
+    </div>
   );
 }

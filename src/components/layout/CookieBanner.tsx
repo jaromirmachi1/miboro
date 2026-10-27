@@ -24,19 +24,19 @@ export function CookieBanner() {
     <div
       role="dialog"
       aria-label="Souhlas s cookies"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-bila/95 px-5 py-4 backdrop-blur-md sm:px-8"
+      className="fixed inset-x-0 bottom-0 z-50 bg-papir px-5 py-4 sm:px-8"
     >
       <div className="mx-auto flex max-w-site flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-[13px] leading-relaxed text-sedy">
+        <p className="text-small leading-relaxed text-grafit">
           Používáme pouze technicky nezbytné cookies.{" "}
-          <Link href="/gdpr" className="text-grafit underline decoration-border underline-offset-4">
+          <Link href="/gdpr" className="text-grafit underline decoration-grafit/30 underline-offset-4">
             Zásady zpracování osobních údajů
           </Link>
         </p>
         <button
           type="button"
           onClick={accept}
-          className="shrink-0 self-start border border-grafit px-5 py-2 text-[13px] font-medium text-grafit transition-colors hover:bg-grafit hover:text-bila"
+          className="min-h-[2.75rem] shrink-0 self-start bg-grafit px-5 text-small font-semibold text-papir sm:self-auto transition-colors hover:bg-oranzova hover:text-grafit"
         >
           Rozumím
         </button>

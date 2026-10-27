@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { Archivo } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 
-const plusJakarta = Plus_Jakarta_Sans({
+// One family for everything. The width axis lets headings run condensed,
+// echoing the MIBORO wordmark, while body text stays at normal width.
+const archivo = Archivo({
   subsets: ["latin", "latin-ext"],
+  axes: ["wdth"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const outfit = Outfit({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-display",
   display: "swap",
 });
 
@@ -40,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="cs">
-      <body className={`${plusJakarta.variable} ${outfit.variable} font-sans`}>
+      <body className={`${archivo.variable} font-sans`}>
         {children}
       </body>
     </html>

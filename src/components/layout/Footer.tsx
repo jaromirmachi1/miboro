@@ -1,8 +1,12 @@
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { navLinks } from "@/config/site";
 import { formatPhoneHref } from "@/lib/utils/format";
 import { Container } from "@/components/ui/Container";
-import { MiboroLogo } from "@/components/ui/MiboroLogo";
 
 interface FooterProps {
   phone: string;
@@ -12,27 +16,34 @@ interface FooterProps {
   dic: string;
 }
 
+/** The name returns at full width, rising into place, then one quiet line. */
 export function Footer({ phone, email, address, ico, dic }: FooterProps) {
-  return (
-    <footer className="border-t border-bila/10 bg-grafit text-bila">
-      <Container className="grid gap-14 py-16 lg:grid-cols-12 lg:py-20">
-        <div className="lg:col-span-5">
-          <MiboroLogo href="/" className="h-8 w-auto sm:h-9" />
-          <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-bila">
-            Stavební firma pro veřejné i soukromé zakázky v Moravskoslezském
-            kraji.
-          </p>
-        </div>
+  const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
+  const y = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["40%", "0%"]);
 
-        <div className="lg:col-span-3">
-          <p className="text-label text-bila/90">Navigace</p>
-          <ul className="mt-5 space-y-3">
+  return (
+    <footer ref={ref} className="overflow-hidden bg-grafit text-papir">
+      <Container className="pt-[clamp(6rem,12vw,10rem)]">
+        <div className="grid gap-10 text-body sm:grid-cols-3">
+          <div>
+            <a href={formatPhoneHref(phone)} className="block hover:text-oranzova">
+              {phone}
+            </a>
+            <a href={`mailto:${email}`} className="block hover:text-oranzova">
+              {email}
+            </a>
+          </div>
+          <p className="text-mlha">
+            {address}
+            <br />
+            IČO {ico} · DIČ {dic}
+          </p>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2 sm:justify-end">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-sm text-bila/90 transition-colors hover:text-bila"
-                >
+                <Link href={link.href} className="hover:text-oranzova">
                   {link.label}
                 </Link>
               </li>
@@ -40,35 +51,25 @@ export function Footer({ phone, email, address, ico, dic }: FooterProps) {
           </ul>
         </div>
 
-        <div className="lg:col-span-4">
-          <p className="text-label text-bila/90">Kontakt</p>
-          <ul className="mt-5 space-y-3 text-sm text-bila/90">
-            <li>
-              <a href={formatPhoneHref(phone)} className="hover:text-bila">
-                {phone}
-              </a>
-            </li>
-            <li>
-              <a href={`mailto:${email}`} className="hover:text-bila">
-                {email}
-              </a>
-            </li>
-            <li>{address}</li>
-            <li>
-              IČO {ico} · DIČ {dic}
-            </li>
-          </ul>
-        </div>
-      </Container>
+        <motion.div style={{ y }} className="mt-[clamp(4rem,8vw,7rem)]">
+          <Image
+            src="/images/miborologo.svg"
+            alt="MIBORO"
+            width={2492}
+            height={829}
+            unoptimized
+            className="h-auto w-full"
+          />
+        </motion.div>
 
-      <div className="border-t border-bila/10">
-        <Container className="flex flex-col gap-3 py-5 text-[11px] uppercase tracking-[0.16em] text-bila/90 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} MIBORO</p>
-          <Link href="/gdpr" className="hover:text-bila/90">
+        <div className="grid gap-2 py-8 text-small text-mlha sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+          <p>Stavební firma, Ostrava</p>
+          <p className="sm:text-center">© {new Date().getFullYear()} MIBORO</p>
+          <Link href="/gdpr" className="text-papir hover:text-oranzova sm:justify-self-end">
             Zásady zpracování osobních údajů
           </Link>
-        </Container>
-      </div>
+        </div>
+      </Container>
     </footer>
   );
 }

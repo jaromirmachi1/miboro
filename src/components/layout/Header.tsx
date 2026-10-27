@@ -1,15 +1,28 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { navLinks } from "@/config/site";
 import { formatPhoneHref } from "@/lib/utils/format";
 import { MiboroLogo } from "@/components/ui/MiboroLogo";
+import { getLenis } from "@/components/motion/SmoothScroll";
 
 interface HeaderProps {
   phone: string;
 }
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+/** The picture shown beside each link in the open menu. */
+const menuImages: Record<string, string> = {
+  "/sluzby": "/images/vystavba.jpg",
+  "/reference": "/images/kravare.jpg",
+  "/o-firme": "/images/svarovac.jpg",
+  "/kontakt": "/images/zemniprace.jpg",
+};
 
 function isActiveLink(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -18,105 +31,149 @@ function isActiveLink(pathname: string, href: string) {
 
 export function Header({ phone }: HeaderProps) {
   const pathname = usePathname();
+  const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string>(navLinks[0].href);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => setOpen(false), [pathname]);
+
+  // Compact, solid bar once the page moves; slides away reading down, returns on the way up.
+  useEffect(() => {
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      if (y > 240 && y > last + 2) setHidden(true);
+      if (y < last - 2) setHidden(false);
+      last = y;
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    const lenis = getLenis();
+    if (open) {
+      lenis?.stop();
+      document.body.style.overflow = "hidden";
+    } else {
+      lenis?.start();
+      document.body.style.overflow = "";
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && open) {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
     return () => {
+      window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
   }, [open]);
 
+  const overHero = pathname === "/" && !scrolled && !open;
+  const activeHref = navLinks.find((l) => isActiveLink(pathname, l.href))?.href ?? null;
+  const indicatorHref = hovered ?? activeHref;
+
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-grafit">
-        <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-6 px-5 sm:px-8 lg:h-[4.5rem] lg:px-12">
-          <MiboroLogo priority />
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-[transform,background-color] duration-500 ease-out ${
+          overHero || open ? "bg-transparent" : "bg-grafit"
+        } ${hidden && !open ? "-translate-y-full" : "translate-y-0"}`}
+      >
+        <div
+          className={`mx-auto grid max-w-site grid-cols-[1fr_auto] items-center gap-6 px-5 transition-[height] duration-500 ease-out sm:px-8 lg:grid-cols-[1fr_auto_1fr] lg:px-12 ${
+            scrolled && !open ? "h-16" : "h-[var(--header-height)]"
+          }`}
+        >
+          <MiboroLogo priority className="h-7 w-auto sm:h-8" />
 
+          {/* Desktop links: one yellow bar glides to the link under the pointer, and rests on the current page. */}
           <nav
-            className="hidden items-center gap-1 lg:flex"
             aria-label="Hlavní navigace"
+            className={`hidden transition-opacity duration-300 lg:block ${open ? "pointer-events-none opacity-0" : "opacity-100"}`}
+            onMouseLeave={() => setHovered(null)}
           >
-            {navLinks.map((link) => {
-              const active = isActiveLink(pathname, link.href);
-
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`group relative px-3.5 py-2 text-[14px] font-medium transition-colors ${
-                    active ? "text-bila" : "text-bila/75 hover:text-bila"
-                  }`}
-                >
-                  {link.label}
-                  <span
-                    className={`absolute inset-x-3.5 -bottom-px h-px origin-left transition-transform duration-300 ${
-                      active ? "scale-x-100 bg-oranzova" : "scale-x-0 bg-oranzova"
-                    } ${!active ? "group-hover:scale-x-100" : ""}`}
-                    aria-hidden="true"
-                  />
-                </Link>
-              );
-            })}
+            <ul className="flex items-center gap-1">
+              {navLinks.map((link) => {
+                const active = isActiveLink(pathname, link.href);
+                return (
+                  <li key={link.href} className="relative">
+                    <Link
+                      href={link.href}
+                      aria-current={active ? "page" : undefined}
+                      onMouseEnter={() => setHovered(link.href)}
+                      onFocus={() => setHovered(link.href)}
+                      onBlur={() => setHovered(null)}
+                      className="relative block px-4 py-2.5 text-small text-papir"
+                    >
+                      {link.label}
+                      {indicatorHref === link.href && (
+                        <motion.span
+                          layoutId="nav-indicator"
+                          aria-hidden="true"
+                          className="absolute inset-x-4 bottom-1 h-[2px] bg-oranzova"
+                          transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 36 }}
+                        />
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           </nav>
 
-          <div className="flex items-center gap-3 sm:gap-4">
-            <a
-              href={formatPhoneHref(phone)}
-              className="hidden items-center gap-2 text-[14px] font-medium text-bila/90 transition-colors hover:text-bila md:inline-flex"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-                className="shrink-0 opacity-80"
-              >
-                <path
-                  d="M5 4h4l2 5-2 1.5a11 11 0 0 0 5 5L15.5 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              {phone}
-            </a>
-
+          <div className="flex items-center justify-end gap-2 sm:gap-3">
             <Link
               href="/kontakt"
-              className="hidden rounded-full bg-oranzova px-4 py-2 text-[13px] font-semibold text-grafit transition-colors hover:bg-[#E6C200] sm:inline-flex"
+              className={`group relative isolate hidden min-h-[2.75rem] items-center overflow-hidden bg-oranzova px-5 text-small font-semibold text-grafit transition-opacity duration-300 sm:inline-flex ${
+                open ? "pointer-events-none opacity-0" : "opacity-100"
+              }`}
             >
-              Kontakt
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 -z-10 translate-y-full bg-papir transition-transform duration-500 ease-out group-hover:translate-y-0"
+              />
+              Poptat stavbu
             </Link>
 
             <button
+              ref={toggleRef}
               type="button"
-              className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-bila transition-colors hover:bg-bila/10 lg:hidden"
               aria-expanded={open}
-              aria-controls="mobile-nav"
-              aria-label={open ? "Zavřít menu" : "Otevřít menu"}
-              onClick={() => setOpen((value) => !value)}
+              aria-controls="site-menu"
+              onClick={() => setOpen((v) => !v)}
+              className="group inline-flex min-h-[2.75rem] items-center gap-3 px-3 text-small font-semibold text-papir"
             >
-              <span className="sr-only">{open ? "Zavřít menu" : "Otevřít menu"}</span>
-              <span className="flex w-5 flex-col gap-[5px]">
+              <span className="relative block h-[1.2em] overflow-hidden">
+                <span aria-hidden="true" className={`block transition-transform duration-500 ease-out ${open ? "-translate-y-full" : ""}`}>
+                  Menu
+                </span>
                 <span
-                  className={`block h-px w-full bg-current transition-transform duration-300 ${
-                    open ? "translate-y-[6px] rotate-45" : ""
-                  }`}
+                  aria-hidden="true"
+                  className={`absolute inset-0 block transition-transform duration-500 ease-out ${open ? "translate-y-0" : "translate-y-full"}`}
+                >
+                  Zavřít
+                </span>
+                <span className="sr-only">{open ? "Zavřít menu" : "Otevřít menu"}</span>
+              </span>
+              <span aria-hidden="true" className="relative block h-3 w-6">
+                <span
+                  className={`absolute left-0 top-0 block h-[2px] w-full bg-current transition-transform duration-500 ease-out ${
+                    open ? "translate-y-[5px] rotate-45" : "group-hover:scale-x-75"
+                  } origin-center`}
                 />
                 <span
-                  className={`block h-px w-full bg-current transition-opacity duration-300 ${
-                    open ? "opacity-0" : ""
-                  }`}
-                />
-                <span
-                  className={`block h-px w-full bg-current transition-transform duration-300 ${
-                    open ? "-translate-y-[6px] -rotate-45" : ""
+                  className={`absolute bottom-0 left-0 block h-[2px] w-full bg-current transition-transform duration-500 ease-out ${
+                    open ? "-translate-y-[5px] -rotate-45" : ""
                   }`}
                 />
               </span>
@@ -125,92 +182,107 @@ export function Header({ phone }: HeaderProps) {
         </div>
       </header>
 
-      <div
-        id="mobile-nav"
-        className={`fixed inset-0 z-40 lg:hidden ${
-          open ? "pointer-events-auto" : "pointer-events-none"
-        }`}
-        aria-hidden={!open}
-      >
-        <button
-          type="button"
-          className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${
-            open ? "opacity-100" : "opacity-0"
-          }`}
-          aria-label="Zavřít menu"
-          onClick={() => setOpen(false)}
-        />
+      {/* Full-screen menu: the pages as large names, a photo of each beside them, contact at the foot. */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="site-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            className="fixed inset-0 z-40 overflow-y-auto bg-grafit text-papir"
+            initial={reduce ? { opacity: 0 } : { clipPath: "inset(0% 0% 100% 0%)" }}
+            animate={reduce ? { opacity: 1 } : { clipPath: "inset(0% 0% 0% 0%)" }}
+            exit={reduce ? { opacity: 0 } : { clipPath: "inset(0% 0% 100% 0%)" }}
+            transition={{ duration: reduce ? 0.2 : 0.8, ease }}
+            data-lenis-prevent
+          >
+            <div className="mx-auto grid min-h-full max-w-site gap-10 px-5 pb-8 pt-[calc(var(--header-height)+2.5rem)] sm:px-8 lg:grid-cols-12 lg:gap-8 lg:px-12 lg:pb-12">
+              <nav aria-label="Menu" className="lg:col-span-7 lg:self-center">
+                <ul>
+                  {navLinks.map((link, i) => {
+                    const active = isActiveLink(pathname, link.href);
+                    return (
+                      <li key={link.href} className="overflow-hidden">
+                        <motion.div
+                          initial={{ y: reduce ? 0 : "110%" }}
+                          animate={{ y: 0 }}
+                          exit={{ y: reduce ? 0 : "-40%", opacity: 0 }}
+                          transition={{ duration: 0.9, ease, delay: reduce ? 0 : 0.25 + i * 0.07 }}
+                        >
+                          <Link
+                            href={link.href}
+                            aria-current={active ? "page" : undefined}
+                            onMouseEnter={() => setPreview(link.href)}
+                            onFocus={() => setPreview(link.href)}
+                            onClick={() => setOpen(false)}
+                            className={`condensed group flex items-center gap-4 py-1 text-[clamp(3rem,1.6rem+6vw,7.5rem)] leading-[1.02] tracking-[-0.03em] transition-colors duration-300 ${
+                              active ? "text-oranzova" : "text-papir hover:text-oranzova"
+                            }`}
+                          >
+                            <span className="transition-transform duration-500 ease-out group-hover:translate-x-3">
+                              {link.label}
+                            </span>
+                          </Link>
+                        </motion.div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
 
-        <nav
-          className={`absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-bila px-6 pb-8 pt-20 shadow-2xl transition-transform duration-300 ease-out sm:px-8 ${
-            open ? "translate-x-0" : "translate-x-full"
-          }`}
-          aria-label="Mobilní navigace"
-        >
-          <ul className="flex flex-col gap-1">
-            {navLinks.map((link, index) => {
-              const active = isActiveLink(pathname, link.href);
-
-              return (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className={`flex items-center justify-between border-b border-black/5 py-4 text-lg font-medium transition-colors ${
-                      active ? "text-oranzova" : "text-grafit hover:text-oranzova"
-                    }`}
-                    onClick={() => setOpen(false)}
-                    style={{ transitionDelay: open ? `${index * 40}ms` : "0ms" }}
+              <motion.div
+                className="relative hidden aspect-[4/5] max-h-[68svh] overflow-hidden bg-ocel lg:col-span-4 lg:col-start-9 lg:block lg:self-center"
+                initial={{ opacity: 0, scale: reduce ? 1 : 0.94 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.9, ease, delay: reduce ? 0 : 0.35 }}
+              >
+                <AnimatePresence initial={false}>
+                  <motion.div
+                    key={preview}
+                    className="absolute inset-0"
+                    initial={{ opacity: 0, scale: reduce ? 1 : 1.08 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.8, ease }}
                   >
-                    {link.label}
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      aria-hidden="true"
-                      className="opacity-30"
-                    >
-                      <path
-                        d="M3 8h10M9 4l4 4-4 4"
-                        stroke="currentColor"
-                        strokeWidth="1.25"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+                    <Image
+                      src={menuImages[preview] ?? "/images/vystavba.jpg"}
+                      alt=""
+                      fill
+                      className="object-cover brightness-[0.85]"
+                      sizes="33vw"
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </motion.div>
 
-          <div className="mt-auto space-y-4 border-t border-black/5 pt-8">
-            <a
-              href={formatPhoneHref(phone)}
-              className="flex items-center gap-3 text-base font-semibold text-grafit"
-            >
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-oranzova/10 text-oranzova">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M5 4h4l2 5-2 1.5a11 11 0 0 0 5 5L15.5 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              {phone}
-            </a>
-            <Link
-              href="/kontakt"
-              className="flex w-full items-center justify-center rounded-full bg-grafit py-3.5 text-sm font-semibold text-bila transition-colors hover:bg-oranzova hover:text-grafit"
-              onClick={() => setOpen(false)}
-            >
-              Kontakt
-            </Link>
-          </div>
-        </nav>
-      </div>
+              <motion.div
+                className="flex flex-col gap-4 self-end text-body sm:flex-row sm:items-end sm:justify-between lg:col-span-12"
+                initial={{ opacity: 0, y: reduce ? 0 : 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8, ease, delay: reduce ? 0 : 0.55 }}
+              >
+                <div>
+                  <a href={formatPhoneHref(phone)} className="block hover:text-oranzova">
+                    {phone}
+                  </a>
+                  <p className="text-mlha">Ostrava, Moravskoslezský kraj</p>
+                </div>
+                <Link
+                  href="/kontakt"
+                  onClick={() => setOpen(false)}
+                  className="inline-flex min-h-[3.25rem] items-center justify-center bg-oranzova px-7 font-semibold text-grafit transition-colors hover:bg-papir"
+                >
+                  Poptat stavbu
+                </Link>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

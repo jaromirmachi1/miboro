@@ -1,8 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { Container } from "@/components/ui/Container";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { FadeIn } from "@/components/ui/FadeIn";
+import { Container } from "@/components/ui/Container";
+import { MaskLines } from "@/components/motion/Reveal";
 import { SanityImage } from "@/components/ui/SanityImage";
 import type { Project } from "@/lib/sanity/types";
 
@@ -11,129 +15,123 @@ interface HomeHeroProps {
   ongoingProject?: Project | null;
 }
 
-const trustItems = [
-  {
-    label: "Vlastní kapacity",
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M3 21h18M5 21V9l7-4 7 4v12M9 21v-6h6v6" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Zkušený tým",
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <circle cx="9" cy="8" r="3" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="17" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M3 20c0-3 2.5-5 6-5s6 2 6 5" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Kvalita a termíny",
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M12 3l2.4 4.8 5.4.8-3.9 3.8.9 5.3L12 15.8 7.2 17.7l.9-5.3L4.2 8.6l5.4-.8L12 3z" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
-  },
-];
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export function HomeHero({ yearFounded, ongoingProject }: HomeHeroProps) {
+  const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+
+  // The photograph sinks and grows a little as the page leaves it; the words lift away faster.
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "22%"]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 1.12]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "-30%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, reduce ? 1 : 0]);
+
   return (
-    <section className="relative -mt-[var(--header-height)] min-h-svh overflow-hidden bg-black text-bila">
-      <div className="absolute inset-0">
-        <Image
-          src="/images/svarovac.jpg"
-          alt="Svářeč na stavbě MIBORO — práce na výztuži"
-          fill
-          priority
-          className="object-cover object-[center_40%]"
-          sizes="100vw"
+    <section
+      ref={ref}
+      className="relative -mt-[var(--header-height)] h-[100svh] min-h-[640px] overflow-hidden bg-grafit text-papir"
+    >
+      <motion.div className="absolute inset-0 will-change-transform" style={{ y: imageY, scale: imageScale }}>
+        <motion.div
+          className="absolute inset-0"
+          initial={{ scale: reduce ? 1 : 1.18, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 2.2, ease }}
+        >
+          <Image
+            src="/images/svarovac.jpg"
+            alt="Svářeč MIBORO při práci na výztuži"
+            fill
+            priority
+            className="object-cover object-[62%_40%] brightness-[0.62] contrast-[1.05]"
+            sizes="100vw"
+          />
+        </motion.div>
+        {/* Neutral scrims: a light one behind the navigation, a deep one under the headline. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-40 bg-[linear-gradient(to_bottom,rgba(14,14,12,0.6),rgba(14,14,12,0))]"
         />
         <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to right, #000000 0%, #000000 36%, rgba(0,0,0,0.72) 48%, rgba(0,0,0,0.28) 56%, transparent 66%)",
-          }}
           aria-hidden="true"
+          className="absolute inset-0 bg-[linear-gradient(to_top,rgba(14,14,12,0.92)_0%,rgba(14,14,12,0.55)_38%,rgba(14,14,12,0)_70%)]"
         />
-      </div>
+      </motion.div>
 
-      <Container className="relative z-10 grid min-h-svh lg:grid-cols-12 lg:gap-x-12">
-        <FadeIn className="mt-[var(--header-height)] flex min-h-[calc(100svh-var(--header-height))] flex-col justify-center lg:col-span-7">
-          <h1 className="font-display text-[clamp(2.25rem,6vw,4.5rem)] font-bold uppercase leading-[1.05] tracking-tight">
-            Stavíme pevně.
-            <br />
-            <span className="text-oranzova">Dodáváme spolehlivě.</span>
-          </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-bila/95 sm:text-lg">
-            Komplexní stavební řešení pro veřejný i soukromý sektor. Od roku{" "}
-            {yearFounded} realizujeme zakázky s důrazem na ověřitelnost,
-            kapacity a termíny.
-          </p>
-
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Button href="/reference" variant="primary">
-              Naše reference
-            </Button>
-            <Button href="/o-firme" variant="outline-light">
-              O firmě
-            </Button>
-          </div>
-
-          <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
-            {trustItems.map((item) => (
-              <li
-                key={item.label}
-                className="flex items-center gap-3 text-sm text-bila"
+      <motion.div className="relative z-10 h-full" style={{ y: contentY, opacity: contentOpacity }}>
+        <Container className="flex h-full flex-col justify-end pb-10 sm:pb-14 lg:pb-16">
+          <MaskLines
+            as="h1"
+            onMount
+            delay={0.35}
+            className="condensed text-mega"
+            lines={["Stavíme pevně.", "Dodáváme spolehlivě."]}
+          />
+          <div className="mt-8 grid items-end gap-10 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              <motion.p
+                className="max-w-[46ch] text-lead text-papir"
+                initial={{ opacity: 0, y: reduce ? 0 : 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, ease, delay: 0.85 }}
               >
-                <span className="text-oranzova">{item.icon}</span>
-                {item.label}
-              </li>
-            ))}
-          </ul>
-        </FadeIn>
+                Stavební firma z Ostravy. Od roku {yearFounded} stavíme školy,
+                fasády, silnice a sítě pro města Moravskoslezského kraje.
+              </motion.p>
+              <motion.div
+                className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4"
+                initial={{ opacity: 0, y: reduce ? 0 : 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, ease, delay: 1 }}
+              >
+                <Button href="/reference">Naše reference</Button>
+                <Link
+                  href="/o-firme"
+                  className="text-body text-papir underline decoration-papir/40 underline-offset-[6px] transition-colors hover:decoration-oranzova"
+                >
+                  O firmě
+                </Link>
+              </motion.div>
+            </div>
 
-        {ongoingProject && (
-          <FadeIn
-            delay={0.1}
-            className="flex items-end pb-16 lg:col-span-5 lg:mt-[var(--header-height)] lg:min-h-[calc(100svh-var(--header-height))] lg:items-center lg:pb-0"
-          >
-            <Link
-              href={`/reference/${ongoingProject.slug.current}`}
-              className="group ml-auto block w-full max-w-md border border-bila/15 bg-black/80 p-4 backdrop-blur-sm transition-colors hover:border-oranzova/50 lg:ml-auto"
-            >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-oranzova">
-                Aktuálně realizujeme
-              </p>
-              <div className="mt-3 flex gap-4">
-                <div className="relative h-16 w-24 shrink-0 overflow-hidden bg-black">
-                  <SanityImage
-                    image={ongoingProject.coverImage}
-                    alt={ongoingProject.title}
-                    fill
-                    className="object-cover"
-                    sizes="96px"
-                  />
-                </div>
-                <div>
-                  <p className="font-display text-base font-semibold text-bila group-hover:text-oranzova">
-                    {ongoingProject.title}
-                  </p>
-                  {ongoingProject.investor && (
-                    <p className="mt-1 text-sm text-bila">
-                      {ongoingProject.investor}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </Link>
-          </FadeIn>
-        )}
-      </Container>
+            {ongoingProject && (
+              <motion.div
+                className="lg:col-span-5 lg:justify-self-end"
+                initial={{ opacity: 0, y: reduce ? 0 : 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, ease, delay: 1.15 }}
+              >
+                <Link
+                  href={`/reference/${ongoingProject.slug.current}`}
+                  className="group flex max-w-sm items-center gap-5"
+                >
+                  <span className="relative block h-20 w-28 shrink-0 overflow-hidden bg-ocel">
+                    <SanityImage
+                      image={ongoingProject.coverImage}
+                      alt=""
+                      fill
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      sizes="112px"
+                    />
+                  </span>
+                  <span className="block text-small text-mlha">
+                    <span className="flex items-center gap-2 text-papir">
+                      <span className="inline-flex h-2 w-2 rounded-full bg-oranzova" aria-hidden="true" />
+                      Právě stavíme
+                    </span>
+                    <span className="mt-1 block text-body text-papir transition-colors group-hover:text-oranzova">
+                      {ongoingProject.title}
+                    </span>
+                    {ongoingProject.investor && <span className="block">{ongoingProject.investor}</span>}
+                  </span>
+                </Link>
+              </motion.div>
+            )}
+          </div>
+        </Container>
+      </motion.div>
     </section>
   );
 }
