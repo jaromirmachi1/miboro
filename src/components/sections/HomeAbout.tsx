@@ -35,11 +35,11 @@ export function HomeAbout({ yearFounded, address, ico, dic }: HomeAboutProps) {
   ];
 
   return (
-    <section aria-labelledby="about-heading" className="bg-grafit pb-[clamp(7rem,14vw,13rem)] text-papir">
+    <section aria-labelledby="about-heading" className="bg-podklad pb-[clamp(7rem,14vw,13rem)] text-grafit">
       <Container>
         <MaskLines as="h2" className="condensed text-head" lines={["Stavební firma s tradicí"]} />
         <Reveal className="mt-6 max-w-[52ch]">
-          <Reveal.Item as="p" className="text-lead text-papir">
+          <Reveal.Item as="p" className="text-lead text-grafit">
             MIBORO působí v Moravskoslezském kraji od roku {yearFounded}. Stavíme
             pro města, školy i soukromé investory a každou referenci umíme doložit.
           </Reveal.Item>
@@ -47,7 +47,7 @@ export function HomeAbout({ yearFounded, address, ico, dic }: HomeAboutProps) {
 
         <div className="mt-[4.5rem] grid gap-4 lg:grid-cols-12">
           <div ref={ref} className="relative lg:col-span-8">
-            <motion.div className="relative aspect-[4/3] overflow-hidden bg-ocel sm:aspect-[16/10]" style={{ clipPath: clip }}>
+            <motion.div className="relative aspect-[4/3] overflow-hidden bg-plocha sm:aspect-[16/10]" style={{ clipPath: clip }}>
               <motion.div className="absolute inset-0" style={{ scale }}>
                 <Image
                   src="/images/fasady.jpg"
@@ -58,7 +58,7 @@ export function HomeAbout({ yearFounded, address, ico, dic }: HomeAboutProps) {
                 />
               </motion.div>
             </motion.div>
-            <div className="bg-papir p-5 text-body text-grafit sm:absolute sm:right-0 sm:top-0 sm:w-[22rem]">
+            <div className="bg-bila p-5 text-body text-grafit sm:absolute sm:right-0 sm:top-0 sm:w-[22rem]">
               <p>
                 Potřebujete firmu ověřit? Kontaktujte nás přímo — bez formuláře,
                 stejně jako v tendru.
@@ -88,8 +88,8 @@ export function HomeAbout({ yearFounded, address, ico, dic }: HomeAboutProps) {
             <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 text-small">
               {facts.map((fact) => (
                 <div key={fact.label}>
-                  <dt className="text-mlha">{fact.label}</dt>
-                  <dd className="tabular mt-1 text-body text-papir">{fact.value}</dd>
+                  <dt className="text-sedy">{fact.label}</dt>
+                  <dd className="tabular mt-1 text-body text-grafit">{fact.value}</dd>
                 </div>
               ))}
             </dl>

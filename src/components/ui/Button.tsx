@@ -19,12 +19,12 @@ export function Button({
   className = "",
 }: ButtonProps) {
   const styles = {
-    primary: "bg-oranzova text-grafit",
+    primary: "bg-oranzova text-grafit hover:text-papir",
     outline: "bg-transparent text-grafit ring-1 ring-inset ring-grafit hover:text-bila",
     "outline-light": "bg-transparent text-papir ring-1 ring-inset ring-papir/50 hover:text-grafit",
   };
   const wipe = {
-    primary: "bg-papir",
+    primary: "bg-grafit",
     outline: "bg-grafit",
     "outline-light": "bg-papir",
   };

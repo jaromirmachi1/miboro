@@ -32,7 +32,7 @@ export function HomeStats({ data }: HomeStatsProps) {
   ];
 
   return (
-    <section aria-labelledby="stats-heading" className="bg-grafit pb-[clamp(7rem,14vw,13rem)] pt-[clamp(5rem,10vw,9rem)] text-papir">
+    <section aria-labelledby="stats-heading" className="bg-podklad pb-[clamp(7rem,14vw,13rem)] pt-[clamp(5rem,10vw,9rem)] text-grafit">
       <div ref={ref} className="relative h-[80svh] sm:h-[88svh]">
         <motion.div className="absolute inset-0 overflow-hidden" style={{ clipPath: clip }}>
         <motion.div className="absolute inset-[-14%_0] will-change-transform" style={{ y: imageY }}>
@@ -50,8 +50,8 @@ export function HomeStats({ data }: HomeStatsProps) {
         />
         </motion.div>
 
-        <Container className="relative flex h-full flex-col justify-between py-8 sm:py-10">
-          <h2 id="stats-heading" className="condensed text-lead">
+        <Container className="relative flex h-full flex-col justify-between py-8 text-papir sm:py-10">
+          <h2 id="stats-heading" className="condensed text-lead text-papir">
             Vlastní kapacitou
           </h2>
 
@@ -74,7 +74,7 @@ export function HomeStats({ data }: HomeStatsProps) {
               <span className="condensed text-head">
                 <CountUp value={item.value} />
               </span>
-              <span className="text-body text-mlha">{item.label}</span>
+              <span className="text-body text-sedy">{item.label}</span>
             </Reveal.Item>
           ))}
         </Reveal>

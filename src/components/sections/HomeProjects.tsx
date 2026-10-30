@@ -40,7 +40,7 @@ export function HomeProjects({ projects }: HomeProjectsProps) {
   if (n === 0) return null;
 
   return (
-    <section aria-labelledby="projects-heading" className="relative bg-grafit text-papir">
+    <section aria-labelledby="projects-heading" className="relative bg-podklad text-grafit">
       <div ref={ref} className="relative" style={{ height: `calc(${n * PER_PROJECT} * 100svh + 100svh)` }}>
         <div className="sticky top-0 h-[100svh] overflow-hidden">
           {projects.map((project, index) => (
@@ -62,7 +62,7 @@ export function HomeProjects({ projects }: HomeProjectsProps) {
       </div>
 
       <Container className="flex flex-col items-start gap-6 py-[clamp(5rem,10vw,9rem)] sm:flex-row sm:items-center sm:justify-between">
-        <p className="max-w-[36ch] text-lead text-papir">
+        <p className="max-w-[36ch] text-lead text-grafit">
           Každou referenci doložíme investorem, rozsahem a termínem.
         </p>
         <Button href="/reference">Všechny reference</Button>

@@ -48,7 +48,7 @@ export function HomeServices({ services }: HomeServicesProps) {
     service.slug?.current ? `/sluzby#${service.slug.current}` : "/sluzby";
 
   return (
-    <section aria-labelledby="services-heading" className="bg-grafit pb-[clamp(7rem,14vw,13rem)] text-papir">
+    <section aria-labelledby="services-heading" className="bg-podklad pb-[clamp(7rem,14vw,13rem)] text-grafit">
       <Container>
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
@@ -58,7 +58,7 @@ export function HomeServices({ services }: HomeServicesProps) {
               lines={["Co stavíme"]}
             />
             <Reveal as="div" className="mt-6 max-w-[44ch]">
-              <Reveal.Item as="p" className="text-body text-papir">
+              <Reveal.Item as="p" className="text-body text-grafit">
                 Od výkopu sítí po poslední vrstvu fasády. Komplexní stavební
                 činnost pro veřejné instituce i soukromé investory.
               </Reveal.Item>
@@ -96,7 +96,7 @@ export function HomeServices({ services }: HomeServicesProps) {
                       <div>
                       <h3
                         className={`condensed text-head transition-[color,transform] duration-500 ease-out ${
-                          isActive ? "translate-x-0 text-papir" : "text-mlha lg:-translate-x-2"
+                          isActive ? "translate-x-0 text-grafit" : "text-sediva lg:-translate-x-2"
                         }`}
                       >
                         {service.title}
@@ -105,9 +105,9 @@ export function HomeServices({ services }: HomeServicesProps) {
                       {/* Phone and tablet: the description and picture sit with their name. */}
                       <div className="lg:hidden">
                         {service.shortDescription && (
-                          <p className="mt-3 max-w-[40ch] text-body text-mlha">{service.shortDescription}</p>
+                          <p className="mt-3 max-w-[40ch] text-body text-sedy">{service.shortDescription}</p>
                         )}
-                        <div className="relative mt-5 aspect-[16/10] overflow-hidden bg-ocel">
+                        <div className="relative mt-5 aspect-[16/10] overflow-hidden bg-plocha">
                           <Image
                             src={getServiceImage(service, index)}
                             alt=""
@@ -128,7 +128,7 @@ export function HomeServices({ services }: HomeServicesProps) {
           {/* Desktop: one picture that follows the lit name. */}
           <div className="hidden lg:col-span-5 lg:block">
             <div className="sticky top-[calc(var(--header-height)+2rem)]">
-              <div className="relative aspect-[4/5] overflow-hidden bg-ocel">
+              <div className="relative aspect-[4/5] overflow-hidden bg-plocha">
                 <AnimatePresence initial={false}>
                   {current && (
                     <motion.div
@@ -160,10 +160,10 @@ export function HomeServices({ services }: HomeServicesProps) {
                       exit={{ opacity: 0, y: reduce ? 0 : -8 }}
                       transition={{ duration: 0.45, ease }}
                     >
-                      <p className="max-w-[40ch] text-body text-papir">{current.shortDescription}</p>
+                      <p className="max-w-[40ch] text-body text-grafit">{current.shortDescription}</p>
                       <Link
                         href={hrefFor(current)}
-                        className="mt-3 inline-block text-body text-oranzova underline decoration-oranzova/40 underline-offset-[6px] hover:decoration-oranzova"
+                        className="mt-3 inline-block text-body font-semibold text-grafit underline decoration-oranzova decoration-2 underline-offset-[6px] hover:decoration-grafit"
                       >
                         Více o oboru
                       </Link>

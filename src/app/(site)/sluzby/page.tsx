@@ -17,12 +17,12 @@ export default async function SluzbyPage() {
   const bento = services.length === 5;
 
   return (
-    <section className="bg-grafit text-papir">
+    <section className="bg-podklad text-grafit">
       <Container className="flex flex-col gap-8 py-10 lg:h-[calc(100svh-var(--header-height))] lg:min-h-[40rem] lg:py-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           <MaskLines as="h1" onMount className="condensed text-head" lines={["Co stavíme"]} />
           <Reveal className="max-w-[52ch]">
-            <RevealItem as="p" className="text-body text-papir">
+            <RevealItem as="p" className="text-body text-grafit">
               Stavíme pro veřejný i soukromý sektor. Každý obor vychází
               z ověřitelných referencí a vlastní stavební kapacity.
             </RevealItem>

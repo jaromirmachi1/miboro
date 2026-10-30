@@ -21,7 +21,7 @@ export function ServiceCard({ service, index, featured = false }: ServiceCardPro
     <article
       id={anchor}
       tabIndex={0}
-      className="group relative isolate flex min-h-[18rem] scroll-mt-28 flex-col justify-end overflow-hidden bg-ocel outline-none lg:min-h-0"
+      className="group relative isolate flex min-h-[18rem] scroll-mt-28 flex-col justify-end overflow-hidden bg-plocha outline-none lg:min-h-0"
     >
       <Image
         src={getServiceImage(service, index)}

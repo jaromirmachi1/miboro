@@ -77,7 +77,7 @@ export function ProjectCard({ project, featured = false }: ProjectCardProps) {
           </div>
         </div>
 
-        <span className="mt-3 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-grafit/50 transition-colors group-hover:text-oranzova">
+        <span className="mt-3 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-sedy transition-colors group-hover:text-grafit">
           Detail projektu
           <svg
             width="14"

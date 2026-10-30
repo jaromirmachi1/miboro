@@ -21,6 +21,7 @@ export const fallbackCompanyInfo = {
 } as const;
 
 export const navLinks = [
+  { href: "/", label: "Domů" },
   { href: "/sluzby", label: "Služby" },
   { href: "/reference", label: "Reference" },
   { href: "/o-firme", label: "O firmě" },

@@ -41,7 +41,7 @@ export default async function KontaktPage() {
                 <dd className="mt-1">
                   <a
                     href={formatPhoneHref(phone)}
-                    className="text-xl font-bold text-oranzova hover:underline"
+                    className="text-xl font-bold text-grafit underline decoration-oranzova decoration-2 underline-offset-4 hover:decoration-grafit"
                   >
                     {phone}
                   </a>
@@ -55,7 +55,7 @@ export default async function KontaktPage() {
                 <dd className="mt-1">
                   <a
                     href={`mailto:${email}`}
-                    className="text-xl font-bold text-grafit hover:text-oranzova"
+                    className="text-xl font-bold text-grafit underline decoration-transparent decoration-2 underline-offset-4 hover:decoration-oranzova"
                   >
                     {email}
                   </a>
@@ -87,7 +87,7 @@ export default async function KontaktPage() {
                     href={`https://or.justice.cz/ias/ui/rejstrik-$firma?ico=${ico}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-base font-medium text-oranzova hover:underline"
+                    className="text-base font-medium text-grafit underline decoration-oranzova decoration-2 underline-offset-4 hover:decoration-grafit"
                   >
                     Ověřit profil firmy na justice.cz →
                   </a>

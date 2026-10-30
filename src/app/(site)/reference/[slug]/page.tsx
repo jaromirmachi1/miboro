@@ -57,7 +57,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <Link
             href="/reference"
-            className="text-sm font-medium text-sedy hover:text-oranzova"
+            className="text-sm font-medium text-sedy hover:text-grafit"
           >
             ← Zpět na reference
           </Link>

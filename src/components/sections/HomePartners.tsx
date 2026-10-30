@@ -24,18 +24,18 @@ export function HomePartners() {
   }, [reduce]);
 
   return (
-    <section aria-labelledby="partners-heading" className="bg-grafit pb-[clamp(7rem,14vw,13rem)] text-papir">
+    <section aria-labelledby="partners-heading" className="bg-podklad pb-[clamp(7rem,14vw,13rem)] text-grafit">
       <Container>
         <h2 id="partners-heading" className="sr-only">
           Pro koho stavíme
         </h2>
         <p className="condensed max-w-[64ch] text-lead">
-            <span className="text-papir">Stavěli jsme pro </span>
+            <span className="text-grafit">Stavěli jsme pro </span>
             {partnerLogos.map((partner, i) => (
               <span key={partner.name}>
                 <span
                   className={`transition-colors duration-500 ${
-                    i === lit ? "text-oranzova" : "text-mlha"
+                    i === lit ? "bg-oranzova text-grafit [box-decoration-break:clone]" : "text-sediva"
                   }`}
                 >
                   {partner.name}
@@ -43,7 +43,7 @@ export function HomePartners() {
                 {i < partnerLogos.length - 1 ? ", " : " "}
               </span>
             ))}
-            <span className="text-papir">a mnoho dalších.</span>
+            <span className="text-grafit">a mnoho dalších.</span>
         </p>
 
         <Reveal as="ul" className="mt-16 grid grid-cols-2 items-center gap-x-10 gap-y-10 sm:grid-cols-4 lg:grid-cols-7" stagger={0.06}>
@@ -55,7 +55,7 @@ export function HomePartners() {
                 width={144}
                 height={48}
                 unoptimized={partner.src.endsWith(".svg")}
-                className={`h-full w-auto max-w-[9rem] object-contain object-left brightness-0 invert transition-opacity duration-500 ${
+                className={`h-full w-auto max-w-[9rem] object-contain object-left brightness-0 transition-opacity duration-500 ${
                   i === lit ? "opacity-100" : "opacity-60"
                 }`}
               />

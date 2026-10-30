@@ -89,7 +89,7 @@ export default async function OFirmePage() {
                 href={`https://or.justice.cz/ias/ui/rejstrik-$firma?ico=${company.ico || fallbackCompanyInfo.ico}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-oranzova hover:underline"
+                className="font-medium text-grafit underline decoration-oranzova decoration-2 underline-offset-4 hover:decoration-grafit"
               >
                 obchodní rejstřík
               </a>

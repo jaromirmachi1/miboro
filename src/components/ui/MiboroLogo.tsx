@@ -16,7 +16,7 @@ export function MiboroLogo({
 }: MiboroLogoProps) {
   const image = (
     <Image
-      src="/images/miborologo.svg"
+      src="/images/miborologo-dark.svg"
       alt="MIBORO"
       width={2492}
       height={829}

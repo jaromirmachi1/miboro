@@ -24,18 +24,18 @@ export function Footer({ phone, email, address, ico, dic }: FooterProps) {
   const y = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["40%", "0%"]);
 
   return (
-    <footer ref={ref} className="overflow-hidden bg-grafit text-papir">
+    <footer ref={ref} className="overflow-hidden bg-podklad text-grafit">
       <Container className="pt-[clamp(6rem,12vw,10rem)]">
         <div className="grid gap-10 text-body sm:grid-cols-3">
           <div>
-            <a href={formatPhoneHref(phone)} className="block hover:text-oranzova">
+            <a href={formatPhoneHref(phone)} className="block underline decoration-transparent decoration-2 underline-offset-4 hover:decoration-oranzova">
               {phone}
             </a>
-            <a href={`mailto:${email}`} className="block hover:text-oranzova">
+            <a href={`mailto:${email}`} className="block underline decoration-transparent decoration-2 underline-offset-4 hover:decoration-oranzova">
               {email}
             </a>
           </div>
-          <p className="text-mlha">
+          <p className="text-sedy">
             {address}
             <br />
             IČO {ico} · DIČ {dic}
@@ -43,7 +43,7 @@ export function Footer({ phone, email, address, ico, dic }: FooterProps) {
           <ul className="flex flex-wrap gap-x-6 gap-y-2 sm:justify-end">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="hover:text-oranzova">
+                <Link href={link.href} className="underline decoration-transparent decoration-2 underline-offset-4 hover:decoration-oranzova">
                   {link.label}
                 </Link>
               </li>
@@ -53,7 +53,7 @@ export function Footer({ phone, email, address, ico, dic }: FooterProps) {
 
         <motion.div style={{ y }} className="mt-[clamp(4rem,8vw,7rem)]">
           <Image
-            src="/images/miborologo.svg"
+            src="/images/miborologo-dark.svg"
             alt="MIBORO"
             width={2492}
             height={829}
@@ -62,10 +62,10 @@ export function Footer({ phone, email, address, ico, dic }: FooterProps) {
           />
         </motion.div>
 
-        <div className="grid gap-2 py-8 text-small text-mlha sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+        <div className="grid gap-2 py-8 text-small text-sedy sm:grid-cols-[1fr_auto_1fr] sm:items-center">
           <p>Stavební firma, Ostrava</p>
           <p className="sm:text-center">© {new Date().getFullYear()} MIBORO</p>
-          <Link href="/gdpr" className="text-papir hover:text-oranzova sm:justify-self-end">
+          <Link href="/gdpr" className="text-grafit underline decoration-transparent decoration-2 underline-offset-4 hover:decoration-oranzova sm:justify-self-end">
             Zásady zpracování osobních údajů
           </Link>
         </div>

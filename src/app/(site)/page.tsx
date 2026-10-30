@@ -34,7 +34,7 @@ export default async function HomePage() {
   const yearFounded = company.yearFounded ?? statData.yearFounded;
 
   return (
-    <div className="bg-grafit">
+    <div className="bg-podklad">
       <HomeHero yearFounded={yearFounded} ongoingProject={ongoingProject} />
       <HomeStats data={statData} />
       <HomeServices services={services} />

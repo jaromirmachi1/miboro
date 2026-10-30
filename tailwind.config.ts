@@ -14,8 +14,12 @@ const config: Config = {
         oranzova: "#FFD700",
         bila: "#FFFFFF",
         papir: "#EDEDE9",
+        // Light theme ground, surface and the soft ink used for inactive items.
+        podklad: "#F5F5F2",
+        plocha: "#E8E8E3",
+        sediva: "#8C8B85",
         mlha: "#A9A79F",
-        sedy: "#3D3C38",
+        sedy: "#55544E",
         svetly: "#F4F3EF",
         border: "rgba(0, 0, 0, 0.12)",
       },

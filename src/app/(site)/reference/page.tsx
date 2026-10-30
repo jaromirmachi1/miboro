@@ -23,43 +23,43 @@ export default async function ReferencePage() {
 
   return (
     <>
-      <section className="bg-grafit text-bila">
+      <section className="bg-podklad text-grafit">
         <Container className="py-14 lg:py-20">
           <FadeIn>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-bila/60">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sedy">
               Portfolio
             </p>
             <h1 className="mt-3 font-display text-4xl font-bold uppercase leading-[1.05] sm:text-5xl lg:text-6xl">
               Reference
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-bila/75 sm:text-lg">
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-sedy sm:text-lg">
               Ověřitelné realizace pro veřejné instituce i soukromé investory.
               Každý projekt dokumentujeme v tendrovém formátu — investor, rozsah,
               termín a výsledek.
             </p>
 
-            <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-6 border-t border-bila/10 pt-8 sm:gap-x-14">
+            <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-6 border-t border-grafit/10 pt-8 sm:gap-x-14">
               <div>
-                <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-bila/50">
+                <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sedy">
                   Realizací celkem
                 </dt>
-                <dd className="mt-1 font-display text-3xl font-bold text-oranzova">
+                <dd className="mt-1 font-display text-3xl font-bold text-grafit">
                   {projects.length}
                 </dd>
               </div>
               <div>
-                <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-bila/50">
+                <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sedy">
                   Dokončených
                 </dt>
-                <dd className="mt-1 font-display text-3xl font-bold text-bila">
+                <dd className="mt-1 font-display text-3xl font-bold text-grafit">
                   {completedCount}
                 </dd>
               </div>
               <div>
-                <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-bila/50">
+                <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-sedy">
                   Probíhajících
                 </dt>
-                <dd className="mt-1 font-display text-3xl font-bold text-bila">
+                <dd className="mt-1 font-display text-3xl font-bold text-grafit">
                   {ongoingCount}
                 </dd>
               </div>

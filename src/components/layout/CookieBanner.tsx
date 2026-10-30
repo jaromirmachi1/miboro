@@ -49,30 +49,30 @@ export function CookieBanner() {
           exit={{ opacity: 0, y: reduce ? 0 : 24 }}
           transition={{ duration: 0.7, ease }}
         >
-          <div className="relative bg-ocel p-5 text-papir shadow-[0_24px_60px_-20px_rgba(0,0,0,0.6)]">
+          <div className="relative bg-bila p-5 text-grafit shadow-[0_24px_60px_-24px_rgba(14,14,12,0.35)]">
             {/* The corner of the MIBORO mark. */}
             <svg aria-hidden="true" viewBox="0 0 24 24" className="absolute right-4 top-4 h-4 w-4">
               <path d="M0 0h24v24h-8V8H0z" fill="#FFD700" />
             </svg>
-            <p className="pr-8 text-small leading-relaxed text-papir">
+            <p className="pr-8 text-small leading-relaxed text-grafit">
               Používáme jen technicky nezbytné cookies, žádné sledování ani
               reklamu.
             </p>
             <div className="mt-4 flex items-center justify-between gap-4">
               <Link
                 href="/gdpr"
-                className="text-small text-mlha underline decoration-mlha/40 underline-offset-4 transition-colors hover:text-papir"
+                className="text-small text-sedy underline decoration-sedy/40 underline-offset-4 transition-colors hover:text-grafit"
               >
                 Zásady ochrany údajů
               </Link>
               <button
                 type="button"
                 onClick={accept}
-                className="group relative isolate min-h-[2.75rem] overflow-hidden bg-oranzova px-5 text-small font-semibold text-grafit"
+                className="group relative isolate min-h-[2.75rem] overflow-hidden bg-oranzova px-5 text-small font-semibold text-grafit transition-colors duration-300 hover:text-papir"
               >
                 <span
                   aria-hidden="true"
-                  className="absolute inset-0 -z-10 translate-y-full bg-papir transition-transform duration-500 ease-out group-hover:translate-y-0"
+                  className="absolute inset-0 -z-10 translate-y-full bg-grafit transition-transform duration-500 ease-out group-hover:translate-y-0"
                 />
                 Rozumím
               </button>

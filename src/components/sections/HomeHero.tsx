@@ -31,7 +31,7 @@ export function HomeHero({ yearFounded, ongoingProject }: HomeHeroProps) {
   return (
     <section
       ref={ref}
-      className="relative -mt-[var(--header-height)] h-[100svh] min-h-[640px] overflow-hidden bg-grafit text-papir"
+      className="relative -mt-[var(--header-height)] h-[100svh] min-h-[640px] overflow-hidden bg-podklad text-grafit"
     >
       <motion.div className="absolute inset-0 will-change-transform" style={{ y: imageY, scale: imageScale }}>
         <motion.div
@@ -41,22 +41,23 @@ export function HomeHero({ yearFounded, ongoingProject }: HomeHeroProps) {
           transition={{ duration: 2.2, ease }}
         >
           <Image
-            src="/images/svarovac.jpg"
-            alt="Svářeč MIBORO při práci na výztuži"
+            src="/images/hero-stavba.jpg"
+            alt="Stavba MIBORO — od projektu k realizaci"
             fill
             priority
-            className="object-cover object-[62%_40%] brightness-[0.62] contrast-[1.05]"
+            quality={92}
+            className="object-cover object-[68%_42%] sm:object-[center_42%] brightness-[1.02] contrast-[1.02]"
             sizes="100vw"
           />
         </motion.div>
         {/* Neutral scrims: a light one behind the navigation, a deep one under the headline. */}
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-40 bg-[linear-gradient(to_bottom,rgba(14,14,12,0.6),rgba(14,14,12,0))]"
+          className="absolute inset-x-0 top-0 h-40 bg-[linear-gradient(to_bottom,rgba(245,245,242,0.85),rgba(245,245,242,0))]"
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[linear-gradient(to_top,rgba(14,14,12,0.92)_0%,rgba(14,14,12,0.55)_38%,rgba(14,14,12,0)_70%)]"
+          className="absolute inset-0 bg-[linear-gradient(to_top,rgba(245,245,242,0.97)_0%,rgba(245,245,242,0.8)_34%,rgba(245,245,242,0)_68%)]"
         />
       </motion.div>
 
@@ -72,7 +73,7 @@ export function HomeHero({ yearFounded, ongoingProject }: HomeHeroProps) {
           <div className="mt-8 grid items-end gap-10 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <motion.p
-                className="max-w-[46ch] text-lead text-papir"
+                className="max-w-[46ch] text-lead text-grafit"
                 initial={{ opacity: 0, y: reduce ? 0 : 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease, delay: 0.85 }}
@@ -89,7 +90,7 @@ export function HomeHero({ yearFounded, ongoingProject }: HomeHeroProps) {
                 <Button href="/reference">Naše reference</Button>
                 <Link
                   href="/o-firme"
-                  className="text-body text-papir underline decoration-papir/40 underline-offset-[6px] transition-colors hover:decoration-oranzova"
+                  className="text-body text-grafit underline decoration-grafit/40 decoration-2 underline-offset-[6px] transition-colors hover:decoration-oranzova"
                 >
                   O firmě
                 </Link>
@@ -107,7 +108,7 @@ export function HomeHero({ yearFounded, ongoingProject }: HomeHeroProps) {
                   href={`/reference/${ongoingProject.slug.current}`}
                   className="group flex max-w-sm items-center gap-5"
                 >
-                  <span className="relative block h-20 w-28 shrink-0 overflow-hidden bg-ocel">
+                  <span className="relative block h-20 w-28 shrink-0 overflow-hidden bg-plocha">
                     <SanityImage
                       image={ongoingProject.coverImage}
                       alt=""
@@ -116,12 +117,12 @@ export function HomeHero({ yearFounded, ongoingProject }: HomeHeroProps) {
                       sizes="112px"
                     />
                   </span>
-                  <span className="block text-small text-mlha">
-                    <span className="flex items-center gap-2 text-papir">
+                  <span className="block text-small text-sedy">
+                    <span className="flex items-center gap-2 text-grafit">
                       <span className="inline-flex h-2 w-2 rounded-full bg-oranzova" aria-hidden="true" />
                       Právě stavíme
                     </span>
-                    <span className="mt-1 block text-body text-papir transition-colors group-hover:text-oranzova">
+                    <span className="mt-1 block text-body text-grafit underline decoration-transparent decoration-2 underline-offset-4 transition-colors group-hover:decoration-oranzova">
                       {ongoingProject.title}
                     </span>
                     {ongoingProject.investor && <span className="block">{ongoingProject.investor}</span>}

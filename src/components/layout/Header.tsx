@@ -18,6 +18,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 /** The picture shown beside each link in the open menu. */
 const menuImages: Record<string, string> = {
+  "/": "/images/hero-stavba.jpg",
   "/sluzby": "/images/vystavba.jpg",
   "/reference": "/images/kravare.jpg",
   "/o-firme": "/images/svarovac.jpg",
@@ -86,7 +87,7 @@ export function Header({ phone }: HeaderProps) {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-[transform,background-color] duration-500 ease-out ${
-          overHero || open ? "bg-transparent" : "bg-grafit"
+          overHero || open ? "bg-transparent" : "bg-podklad"
         } ${hidden && !open ? "-translate-y-full" : "translate-y-0"}`}
       >
         <div
@@ -113,7 +114,7 @@ export function Header({ phone }: HeaderProps) {
                       onMouseEnter={() => setHovered(link.href)}
                       onFocus={() => setHovered(link.href)}
                       onBlur={() => setHovered(null)}
-                      className="relative block px-4 py-2.5 text-small text-papir"
+                      className="relative block px-4 py-2.5 text-small text-grafit"
                     >
                       {link.label}
                       {indicatorHref === link.href && (
@@ -134,13 +135,13 @@ export function Header({ phone }: HeaderProps) {
           <div className="flex items-center justify-end gap-2 sm:gap-3">
             <Link
               href="/kontakt"
-              className={`group relative isolate hidden min-h-[2.75rem] items-center overflow-hidden bg-oranzova px-5 text-small font-semibold text-grafit transition-opacity duration-300 sm:inline-flex ${
+              className={`group relative isolate hidden min-h-[2.75rem] items-center overflow-hidden bg-oranzova px-5 text-small font-semibold text-grafit transition-[opacity,color] duration-300 hover:text-papir sm:inline-flex ${
                 open ? "pointer-events-none opacity-0" : "opacity-100"
               }`}
             >
               <span
                 aria-hidden="true"
-                className="absolute inset-0 -z-10 translate-y-full bg-papir transition-transform duration-500 ease-out group-hover:translate-y-0"
+                className="absolute inset-0 -z-10 translate-y-full bg-grafit transition-transform duration-500 ease-out group-hover:translate-y-0"
               />
               Poptat stavbu
             </Link>
@@ -151,7 +152,7 @@ export function Header({ phone }: HeaderProps) {
               aria-expanded={open}
               aria-controls="site-menu"
               onClick={() => setOpen((v) => !v)}
-              className="group inline-flex min-h-[2.75rem] items-center gap-3 px-3 text-small font-semibold text-papir"
+              className="group inline-flex min-h-[2.75rem] items-center gap-3 px-3 text-small font-semibold text-grafit"
             >
               <span className="relative block h-[1.2em] overflow-hidden">
                 <span aria-hidden="true" className={`block transition-transform duration-500 ease-out ${open ? "-translate-y-full" : ""}`}>
@@ -190,7 +191,7 @@ export function Header({ phone }: HeaderProps) {
             role="dialog"
             aria-modal="true"
             aria-label="Menu"
-            className="fixed inset-0 z-40 overflow-y-auto bg-grafit text-papir"
+            className="fixed inset-0 z-40 overflow-y-auto bg-podklad text-grafit"
             initial={reduce ? { opacity: 0 } : { clipPath: "inset(0% 0% 100% 0%)" }}
             animate={reduce ? { opacity: 1 } : { clipPath: "inset(0% 0% 0% 0%)" }}
             exit={reduce ? { opacity: 0 } : { clipPath: "inset(0% 0% 100% 0%)" }}
@@ -216,11 +217,16 @@ export function Header({ phone }: HeaderProps) {
                             onMouseEnter={() => setPreview(link.href)}
                             onFocus={() => setPreview(link.href)}
                             onClick={() => setOpen(false)}
-                            className={`condensed group flex items-center gap-4 py-1 text-[clamp(3rem,1.6rem+6vw,7.5rem)] leading-[1.02] tracking-[-0.03em] transition-colors duration-300 ${
-                              active ? "text-oranzova" : "text-papir hover:text-oranzova"
-                            }`}
+                            className="condensed group flex items-center gap-4 py-1 text-[clamp(3rem,1.6rem+6vw,7.5rem)] leading-[1.02] tracking-[-0.03em] text-grafit"
                           >
-                            <span className="transition-transform duration-500 ease-out group-hover:translate-x-3">
+                            {/* A yellow marker wipes in behind the hovered name and stays under the current page. */}
+                            <span className="relative isolate px-2 transition-transform duration-500 ease-out group-hover:translate-x-3">
+                              <span
+                                aria-hidden="true"
+                                className={`absolute inset-x-0 bottom-[0.12em] top-[0.18em] -z-10 origin-left bg-oranzova transition-transform duration-500 ease-out ${
+                                  active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                                }`}
+                              />
                               {link.label}
                             </span>
                           </Link>
@@ -232,7 +238,7 @@ export function Header({ phone }: HeaderProps) {
               </nav>
 
               <motion.div
-                className="relative hidden aspect-[4/5] max-h-[68svh] overflow-hidden bg-ocel lg:col-span-4 lg:col-start-9 lg:block lg:self-center"
+                className="relative hidden aspect-[4/5] max-h-[68svh] overflow-hidden bg-plocha lg:col-span-4 lg:col-start-9 lg:block lg:self-center"
                 initial={{ opacity: 0, scale: reduce ? 1 : 0.94 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
@@ -266,15 +272,15 @@ export function Header({ phone }: HeaderProps) {
                 transition={{ duration: 0.8, ease, delay: reduce ? 0 : 0.55 }}
               >
                 <div>
-                  <a href={formatPhoneHref(phone)} className="block hover:text-oranzova">
+                  <a href={formatPhoneHref(phone)} className="block underline decoration-transparent decoration-2 underline-offset-4 hover:decoration-oranzova">
                     {phone}
                   </a>
-                  <p className="text-mlha">Ostrava, Moravskoslezský kraj</p>
+                  <p className="text-sedy">Ostrava, Moravskoslezský kraj</p>
                 </div>
                 <Link
                   href="/kontakt"
                   onClick={() => setOpen(false)}
-                  className="inline-flex min-h-[3.25rem] items-center justify-center bg-oranzova px-7 font-semibold text-grafit transition-colors hover:bg-papir"
+                  className="inline-flex min-h-[3.25rem] items-center justify-center bg-oranzova px-7 font-semibold text-grafit transition-colors hover:bg-grafit hover:text-papir"
                 >
                   Poptat stavbu
                 </Link>
