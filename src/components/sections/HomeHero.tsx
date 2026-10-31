@@ -179,7 +179,7 @@ export function HomeHero({ yearFounded }: HomeHeroProps) {
             </div>
 
             <motion.div
-              className="flex flex-col gap-8 lg:col-span-5 lg:max-w-sm lg:justify-self-end"
+              className="hidden flex-col gap-8 sm:flex lg:col-span-5 lg:max-w-sm lg:justify-self-end"
               initial={{ opacity: 0, y: reduce ? 0 : 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease, delay: 1.15 }}
