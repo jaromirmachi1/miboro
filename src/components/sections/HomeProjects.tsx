@@ -41,8 +41,8 @@ export function HomeProjects({ projects }: HomeProjectsProps) {
 
   return (
     <section aria-labelledby="projects-heading" className="relative bg-podklad text-grafit">
-      <div ref={ref} className="relative" style={{ height: `calc(${n * PER_PROJECT} * 100svh + 100svh)` }}>
-        <div className="sticky top-0 h-[100svh] overflow-hidden">
+      <div ref={ref} className="relative" style={{ height: `calc(${n * PER_PROJECT} * 100svh + 100lvh)` }}>
+        <div className="sticky top-0 h-screen overflow-hidden supports-[height:100lvh]:h-[100lvh]">
           {projects.map((project, index) => (
             <ProjectLayer
               key={project._id}
@@ -137,7 +137,7 @@ function ProjectLayer({
         </motion.p>
       </div>
 
-      <motion.div style={{ opacity: factsOpacity }} className="absolute inset-x-0 bottom-0 px-5 pb-8 sm:pb-12">
+      <motion.div style={{ opacity: factsOpacity }} className="absolute inset-x-0 bottom-0 px-5 pb-8 supports-[height:100lvh]:pb-[calc(100lvh-100svh+2rem)] sm:pb-12">
         <dl className="mx-auto flex max-w-3xl flex-wrap justify-center gap-x-8 gap-y-2 text-center text-small text-papir sm:text-body">
           {project.investor && (
             <div className="flex gap-2">
@@ -184,7 +184,7 @@ function Pane({
   return (
     <motion.div
       style={{ y }}
-      className={`absolute top-[-10svh] h-[120svh] w-1/2 overflow-hidden will-change-transform ${side === "left" ? "left-0" : "left-1/2"}`}
+      className={`absolute top-[-10lvh] h-[120lvh] w-1/2 overflow-hidden will-change-transform ${side === "left" ? "left-0" : "left-1/2"}`}
       aria-hidden="true"
     >
       <div className={`absolute inset-y-0 w-[100vw] ${side === "left" ? "left-0" : "-left-[50vw]"}`}>
