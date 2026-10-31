@@ -8,8 +8,7 @@ import { HomeStats } from "@/components/sections/HomeStats";
 import { createPageMetadata } from "@/lib/seo/metadata";
 import {
   getCompanyInfo,
-  getCompletedProjects,
-  getOngoingProject,
+  getProjects,
   getServices,
   getStatBarData,
 } from "@/lib/sanity/queries";
@@ -22,20 +21,27 @@ export const metadata = createPageMetadata({
 });
 
 export default async function HomePage() {
-  const [statData, services, company, ongoingProject, completedProjects] =
+  const [statData, services, company, allProjects] =
     await Promise.all([
       getStatBarData(),
       getServices(),
       getCompanyInfo(),
-      getOngoingProject(),
-      getCompletedProjects(),
+      getProjects(),
     ]);
+
+  // Projects left out of the homepage showcase (they stay on /reference).
+  const hiddenOnHomepage = (title: string, slug: string) =>
+    slug === "zatepleni-administrativni-budovy" || /^zateplení administrativní budovy/i.test(title);
+  const completedProjects = allProjects
+    .filter((project) => project.status === "completed")
+    .filter((project) => !hiddenOnHomepage(project.title, project.slug.current))
+    .slice(0, 5);
 
   const yearFounded = company.yearFounded ?? statData.yearFounded;
 
   return (
     <div className="bg-podklad">
-      <HomeHero yearFounded={yearFounded} ongoingProject={ongoingProject} />
+      <HomeHero yearFounded={yearFounded} />
       <HomeStats data={statData} />
       <HomeServices services={services} />
       <HomeProjects projects={completedProjects} />

@@ -1,10 +1,9 @@
-import { fallbackCompanyInfo, siteConfig } from "@/config/site";
+import { companyDetails, fallbackCompanyInfo, siteConfig } from "@/config/site";
 import type { CompanyInfo } from "@/lib/sanity/types";
 
 export function buildLocalBusinessSchema(company: CompanyInfo) {
   const phone = company.phone || fallbackCompanyInfo.phone;
   const email = company.email || fallbackCompanyInfo.email;
-  const address = company.address || fallbackCompanyInfo.address;
 
   return {
     "@context": "https://schema.org",
@@ -14,12 +13,15 @@ export function buildLocalBusinessSchema(company: CompanyInfo) {
     url: siteConfig.url,
     telephone: phone,
     email,
+    legalName: companyDetails.legalName,
+    taxID: fallbackCompanyInfo.dic,
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Ostrava",
+      streetAddress: companyDetails.street,
+      postalCode: companyDetails.postalCode,
+      addressLocality: companyDetails.city,
       addressRegion: "Moravskoslezský kraj",
       addressCountry: "CZ",
-      streetAddress: address,
     },
     areaServed: {
       "@type": "AdministrativeArea",
